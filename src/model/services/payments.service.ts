@@ -56,7 +56,7 @@ export function calculatePaymentForEmployee(
   monthsRange: number = 12,
 ): Array<IPayment> {
   const result: Array<IPayment> = [];
-  let currentDate: Date = startDate,
+  let currentDate: Date = new Date(startDate),
     i: number;
 
   for (i = 0; i < monthsRange; ++i) {
