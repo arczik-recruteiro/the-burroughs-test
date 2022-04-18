@@ -1,0 +1,6 @@
+### GET
+
+GET http://localhost:5000/api/v1/companies
+
+###
+GET http://localhost:5000/api/v1/companies/b165feef-04be-4d97-9f13-2aa2f336d800
