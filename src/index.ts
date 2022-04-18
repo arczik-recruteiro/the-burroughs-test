@@ -1,6 +1,8 @@
 import express, { Request, Response, Express } from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
+import swaggerUi from 'swagger-ui-express';
+import yaml from 'yamljs';
 
 import { PRODUCTION_ENV } from './consts';
 import { initData } from '@model/index';
@@ -25,6 +27,8 @@ const app = express();
  * Initial function for starting an application
  */
 const init = async (app: Express) => {
+  const swaggerDocument = yaml.load('./swagger.yaml');
+
   // helper function
   showRuntimeEnv();
   initData();
@@ -41,6 +45,13 @@ const init = async (app: Express) => {
 
   app.use(`${API_PREFIX}/companies`, companiesRoutes);
   app.use(`${API_PREFIX}/companies/:companyId/payments`, paymentsRoutes);
+
+  // swaggers
+  app.use(
+    `${API_PREFIX}/api-docs`,
+    swaggerUi.serve,
+    swaggerUi.setup(swaggerDocument),
+  );
 
   app.listen(PORT, () => {
     console.log(`App has started at port ${PORT}`);
