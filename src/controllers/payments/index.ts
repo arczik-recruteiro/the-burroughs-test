@@ -1,21 +1,31 @@
-import { Request, Response, Router, RequestHandler } from 'express';
+import { Request, Response, Router } from 'express';
 
 import { calculatePayments } from '@model/services/payments.service';
-import { DATE } from '@faker-js/faker/definitions/date';
+import { validateUuidPathVariable } from '@guards/index';
 
 const routes: Router = Router({ mergeParams: true });
 
 //  get all
-routes.get('/', async (req: Request, res: Response) => {
-  const { companyId } = req.params;
-  // const calculationDate = new Date(new Date().toUTCString());
-  const d = new Date();
-  const calculatedPayments = await calculatePayments(
-    companyId,
-    new Date(Date.UTC(d.getUTCFullYear(), d.getMonth())),
-  );
+routes.get(
+  '/',
+  validateUuidPathVariable('companyId'),
+  async (req: Request, res: Response) => {
+    const { companyId } = req.params;
+    const d = new Date();
+    let calculatedPayments;
 
-  return res.json({ data: calculatedPayments });
-});
+    try {
+      calculatedPayments = await calculatePayments(
+        companyId,
+        new Date(Date.UTC(d.getUTCFullYear(), d.getMonth())),
+      );
+    } catch (ex: any) {
+      console.error(ex);
+      return res.status(500).send({ errors: [{ msg: ex.toString() }] });
+    }
+
+    return res.json({ data: calculatedPayments });
+  },
+);
 
 export default routes;

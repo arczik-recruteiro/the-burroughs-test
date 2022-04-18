@@ -1,3 +1,11 @@
-### GET
+### GET company 1
 
 GET http://localhost:5000/api/v1/companies/b165feef-04be-4d97-9f13-2aa2f336d800/payments
+
+
+### GET  company 2
+GET http://localhost:5000/api/v1/companies/183f9748-11e3-4415-9a75-0ecd3379fea1/payments
+
+### GET  not existing company
+GET http://localhost:5000/api/v1/companies/183f9748-11e3-4415-9a75-0ecd3379fea2/payments
+

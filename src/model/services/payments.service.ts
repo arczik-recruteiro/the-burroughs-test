@@ -88,7 +88,7 @@ export async function calculatePayments(
   const company = await CompanyService.findOne(companyId);
 
   if (typeof company === 'undefined' || company === null) {
-    throw 'Company does not exists';
+    throw 'Company does not exist.';
   }
 
   employees = await EmployeeService.findAll({ companyId });
